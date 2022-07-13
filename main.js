@@ -1,11 +1,21 @@
 'use strict'
 
-//banco de dados
-let banco = [
-    { "tarefa": "estudar js", "status": "" },
-    { "tarefa": "netflix", "status": "checked" },
-    { "tarefa": "react", "status": "" }
-]
+//banco de dados statico
+// let banco = [
+//     { "tarefa": "estudar html", "status": "checked" },
+//     { "tarefa": "estudar css", "status": "" },
+//     { "tarefa": "estudar javascript", "status": "" }
+// ];
+
+
+//pega do banco local storage a informação se possui alguma tarefa ou não
+const getBanco = () => JSON.parse(localStorage.getItem("todoList")) ?? [];
+
+//atualiza o banco local storage
+const setBanco = () => localStorage.setItem("todoList", JSON.stringify(banco))
+
+//usando o local storage como banco
+const banco = getBanco();
 
 //criar item 
 const criarItem = (tarefa, status, indice) => {
@@ -31,6 +41,7 @@ const limparTarefas = () => {
 //atualizar tela conforme o banco de dados 
 const atualizarTela = () => {
     limparTarefas();
+    // const banco = getBanco();
     banco.forEach((item, indice) => criarItem(item.tarefa, item.status, indice));
 }
 
@@ -44,6 +55,7 @@ const inserirItem = (evento) => {
 
     if (tecla === "Enter") {
         banco.push({ "tarefa": texto, "status": "" })
+        setBanco(banco)
         atualizarTela();
         //limpar texto do input
         evento.target.value = "";
