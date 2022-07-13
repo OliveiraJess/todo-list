@@ -51,20 +51,27 @@ const inserirItem = (evento) => {
 
 }
 
-//remover item
+//remover item no banco
 const removerItem = (indice) => {
     //recorta/modifica o array
     banco.splice(indice, 1);
     atualizarTela();
 }
 
+//atualizar status do item no banco
+const atualizarItem = (indice) => {
+    banco[indice].status = banco[indice].status === "" ? "checked" : "";
+    atualizarTela();
+}
+
 //verificar click no item e remover
 const clickItem = (evento) => {
     const elemento = evento.target
-
+    const indice = elemento.dataset.indice
     if (elemento.type === "button") {
-        const indice = elemento.dataset.indice
         removerItem(indice);
+    } else if (elemento.type === "checkbox") {
+        atualizarItem(indice);
     }
 }
 
